@@ -90,6 +90,8 @@
     return (yield next);
   });
 
+  require('./routes/credentials')(app);
+
   app.listen(app.port);
 
   console.log("############ || STARTING -> " + (new Date().toISOString()) + " || #####################");

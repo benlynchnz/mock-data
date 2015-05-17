@@ -66,7 +66,7 @@ app.get "#{app.prefix}/__internal__", (next) ->
 	yield next
 
 ## ROUTES
-# require('./routes/feeds')(app)
+require('./routes/credentials')(app)
 
 app.listen(app.port)
 console.log "############ || STARTING -> #{new Date().toISOString()} || #####################"
