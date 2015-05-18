@@ -10,7 +10,7 @@ decrypt = (text) ->
 module.exports = (app) ->
 
 	# Create new credentials
-	app.post "#{app.prefix}/", (next) ->
+	app.post "/", (next) ->
 
 		body = @request.body
 		user = yield Credentials.createCredentials(body)
@@ -24,7 +24,7 @@ module.exports = (app) ->
 			@status = 500
 
 	# Get credentials
-	app.get "#{app.prefix}/:id", (next) ->
+	app.get "/:id", (next) ->
 
 		user = yield Credentials.getActiveCredentials(@params.id)
 			.then (res) ->

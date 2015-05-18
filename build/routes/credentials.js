@@ -14,7 +14,7 @@
   };
 
   module.exports = function(app) {
-    app.post(app.prefix + "/", function*(next) {
+    app.post("/", function*(next) {
       var body, user;
       body = this.request.body;
       user = (yield Credentials.createCredentials(body).then(function(res) {
@@ -27,7 +27,7 @@
         return this.status = 500;
       }
     });
-    return app.get(app.prefix + "/:id", function*(next) {
+    return app.get("/:id", function*(next) {
       var result, user;
       user = (yield Credentials.getActiveCredentials(this.params.id).then(function(res) {
         return res;

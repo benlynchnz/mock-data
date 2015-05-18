@@ -11,7 +11,6 @@ app.nconf = nconf
 app.cwd = __dirname
 app.package = require '../package.json'
 app.os = require 'os'
-app.prefix = '/credentials'
 
 app.use (next) ->
 	start = new Date
@@ -40,11 +39,11 @@ app.on 'error', (err, ctx) ->
 app.use(bodyParser())
 app.use(router(app))
 
-app.get "#{app.prefix}/ping", (next) ->
+app.get "/ping", (next) ->
 	@status = 200
 	yield next
 
-app.get "#{app.prefix}/__internal__", (next) ->
+app.get "/__internal__", (next) ->
 	@body =
 		service: app.package.name
 		version: app.package.version

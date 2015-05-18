@@ -23,8 +23,6 @@
 
   app.os = require('os');
 
-  app.prefix = '/credentials';
-
   app.use(function*(next) {
     var ms, start;
     start = new Date;
@@ -62,12 +60,12 @@
 
   app.use(router(app));
 
-  app.get(app.prefix + "/ping", function*(next) {
+  app.get("/ping", function*(next) {
     this.status = 200;
     return (yield next);
   });
 
-  app.get(app.prefix + "/__internal__", function*(next) {
+  app.get("/__internal__", function*(next) {
     this.body = {
       service: app["package"].name,
       version: app["package"].version,
