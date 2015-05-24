@@ -2,6 +2,7 @@
   "name": "credentials",
   "version": "0.0.1",
   "description": "credentials service",
+  "dockerRepo": "quay.io/judeio/credentials",
   "main": "build/index.js",
   "repository": {
     "type": "git",
