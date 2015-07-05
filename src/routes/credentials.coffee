@@ -38,6 +38,17 @@ module.exports = (app) ->
 		else
 			@status = 404
 
+	# Get credentials for user & supplier
+	app.get "/users/:user", (next) ->
 
-
-
+		credentials = yield Credentials.getCredentialsByUser(@params.user, @request.query.supplier)
+			.then (res) ->
+				return res
+				
+		if credentials
+			# result = credentials.get()
+			# result.password = decrypt(credentials.get('password'))
+			# @status = 200
+			@body = credentials
+		else
+			@status = 404

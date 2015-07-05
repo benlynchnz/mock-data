@@ -27,7 +27,7 @@
         return this.status = 500;
       }
     });
-    return app.get("/:id", function*(next) {
+    app.get("/:id", function*(next) {
       var result, user;
       user = (yield Credentials.getActiveCredentials(this.params.id).then(function(res) {
         return res;
@@ -37,6 +37,17 @@
         result.password = decrypt(user.get('password'));
         this.status = 200;
         return this.body = result;
+      } else {
+        return this.status = 404;
+      }
+    });
+    return app.get("/users/:user", function*(next) {
+      var credentials;
+      credentials = (yield Credentials.getCredentialsByUser(this.params.user, this.request.query.supplier).then(function(res) {
+        return res;
+      }));
+      if (credentials) {
+        return this.body = credentials;
       } else {
         return this.status = 404;
       }

@@ -63,6 +63,25 @@
     });
   };
 
+  Credentials.getCredentialsByUser = function(user, supplier) {
+    console.log('suppl', supplier);
+    return new Promise(function(resolve, reject) {
+      return Credentials.scan().where('user').equals(user).exec(function(err, result) {
+        var map;
+        if (err) {
+          return reject(err);
+        } else {
+          map = _.map(result.Items, function(item) {
+            if (item.get('supplier') === supplier) {
+              return item.get();
+            }
+          });
+          return resolve(map);
+        }
+      });
+    });
+  };
+
   vogels.createTables(function(err) {
     if (err) {
       return console.log(err);

@@ -41,7 +41,22 @@ Credentials.getActiveCredentials = (_id) ->
 			if err then reject(err)
 			else resolve(result)
 
+Credentials.getCredentialsByUser = (user, supplier) ->
+	console.log 'suppl', supplier
+	new Promise (resolve, reject) ->
+		Credentials
+			.scan()
+			.where('user').equals(user)
+			.exec (err, result) ->
+				if err then reject(err)
+				else
+					map = _.map result.Items, (item) ->
+						if item.get('supplier') == supplier
+							return item.get()
+
+					resolve(map)
+
 vogels.createTables (err) ->
-	console.log err if err	
+	console.log err if err
 
 module.exports = Credentials
