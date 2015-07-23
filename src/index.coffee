@@ -1,16 +1,25 @@
 nconf      = require 'nconf'
 router     = require 'koa-router'
 bodyParser = require 'koa-bodyparser'
+cors       = require 'koa-cors'
 app        = require('koa')()
 
 nconf.argv().env()
 
 app.port = nconf.get('PORT') or 3000
 app.env = nconf.get('NODE_ENV') or 'development'
+app.origin = 'http://static.jude.io' or nconf.get('ORIGIN') or 'http://localhost:5000'
 app.nconf = nconf
 app.cwd = __dirname
 app.package = require '../package.json'
 app.os = require 'os'
+
+app.use(
+	cors({
+		origin: app.origin
+		expose: ['X-Total-Count']
+	})
+)
 
 app.use (next) ->
 	start = new Date
@@ -29,8 +38,8 @@ app.use (next) ->
 		@status = 500
 		@body = err.message
 		@app.emit 'error', err, @
-	
- 
+
+
 app.on 'error', (err, ctx) ->
 	console.log new Date().toISOString()
 	console.log err.stack if err
@@ -43,29 +52,8 @@ app.get "/ping", (next) ->
 	@status = 200
 	yield next
 
-app.get "/__internal__", (next) ->
-	@body =
-		service: app.package.name
-		version: app.package.version
-		port: app.port
-		env: app.env
-		os:
-			hostname: app.os.hostname()
-			type: app.os.type()
-			platform: app.os.platform()
-			release: app.os.release()
-			uptime: app.os.uptime()
-			loadavg: app.os.loadavg()
-			cpus: app.os.cpus()
-			total_memory: app.os.totalmem()
-			free_memory: app.os.freemem()
-			network_interfaces: app.os.networkInterfaces()
-
-	@status = 200
-	yield next
-
 ## ROUTES
-require('./routes/credentials')(app)
+require('./routes/mock')(app)
 
 app.listen(app.port)
 console.log "############ || STARTING -> #{new Date().toISOString()} || #####################"

@@ -1,12 +1,10 @@
 {
-  "name": "credentials",
+  "name": "dvir",
   "version": "0.0.1",
-  "description": "credentials service",
-  "dockerRepo": "quay.io/judeio/credentials",
+  "description": "dvir service",
   "main": "build/index.js",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/jude-io/services-credentials.git"
+    "type": "git"
   },
   "scripts": {
     "test": "mocha test/test.js",
@@ -19,8 +17,10 @@
     "joi": "^6.4.1",
     "koa": "^0.19.1",
     "koa-bodyparser": "^1.5.0",
+    "koa-cors": "0.0.16",
     "koa-router": "^4.3.2",
     "lodash": "^3.8.0",
+    "moment": "^2.10.3",
     "nconf": "^0.7.1",
     "vogels": "^2.0.0-rc9"
   },

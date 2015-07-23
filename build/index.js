@@ -1,11 +1,13 @@
 (function() {
-  var app, bodyParser, nconf, router;
+  var app, bodyParser, cors, nconf, router;
 
   nconf = require('nconf');
 
   router = require('koa-router');
 
   bodyParser = require('koa-bodyparser');
+
+  cors = require('koa-cors');
 
   app = require('koa')();
 
@@ -15,6 +17,8 @@
 
   app.env = nconf.get('NODE_ENV') || 'development';
 
+  app.origin = 'http://static.jude.io' || nconf.get('ORIGIN') || 'http://localhost:5000';
+
   app.nconf = nconf;
 
   app.cwd = __dirname;
@@ -22,6 +26,11 @@
   app["package"] = require('../package.json');
 
   app.os = require('os');
+
+  app.use(cors({
+    origin: app.origin,
+    expose: ['X-Total-Count']
+  }));
 
   app.use(function*(next) {
     var ms, start;
@@ -65,30 +74,7 @@
     return (yield next);
   });
 
-  app.get("/__internal__", function*(next) {
-    this.body = {
-      service: app["package"].name,
-      version: app["package"].version,
-      port: app.port,
-      env: app.env,
-      os: {
-        hostname: app.os.hostname(),
-        type: app.os.type(),
-        platform: app.os.platform(),
-        release: app.os.release(),
-        uptime: app.os.uptime(),
-        loadavg: app.os.loadavg(),
-        cpus: app.os.cpus(),
-        total_memory: app.os.totalmem(),
-        free_memory: app.os.freemem(),
-        network_interfaces: app.os.networkInterfaces()
-      }
-    };
-    this.status = 200;
-    return (yield next);
-  });
-
-  require('./routes/credentials')(app);
+  require('./routes/mock')(app);
 
   app.listen(app.port);
 
