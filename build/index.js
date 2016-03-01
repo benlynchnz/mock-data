@@ -17,15 +17,13 @@
 
   app.env = nconf.get('NODE_ENV') || 'development';
 
-  app.origin = 'http://static.jude.io' || nconf.get('ORIGIN') || 'http://localhost:5000';
+  app.origin = 'http://localhost:3010';
 
   app.nconf = nconf;
 
   app.cwd = __dirname;
 
   app["package"] = require('../package.json');
-
-  app.os = require('os');
 
   app.use(cors({
     origin: app.origin,

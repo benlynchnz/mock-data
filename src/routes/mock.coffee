@@ -15,6 +15,23 @@ module.exports = (app) ->
 		else
 			@status = 500
 
+	app.get "/drivers.json", (next) ->
+
+		count = @request.query.count or 100
+
+		result = yield Mock.getDrivers(count)
+			.then (res) ->
+				return res
+
+		@set 'X-Total-Count', result.length
+
+		if result
+			@status = 200
+			@body =
+				Items: result
+		else
+			@status = 404
+
 	app.get "/reports", (next) ->
 
 		rows_per_page = @request.query['per_page'] or 10
