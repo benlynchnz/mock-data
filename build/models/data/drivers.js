@@ -39,7 +39,8 @@
             license_id: driver_id,
             display_name: "NZ Drivers License",
             is_primary: true,
-            jurisdiction: _.sample(location)
+            jurisdiction: _.sample(location),
+            expiry: moment().add(_.random(1, 365), 'days').subtract(_.random(1, 60), 'minutes').toISOString()
           }
         ]
       });
