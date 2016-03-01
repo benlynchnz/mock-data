@@ -17,6 +17,22 @@
         return this.status = 500;
       }
     });
+    app.get("/drivers.json", function*(next) {
+      var count, result;
+      count = this.request.query.count || 100;
+      result = (yield Mock.getDrivers(count).then(function(res) {
+        return res;
+      }));
+      this.set('X-Total-Count', result.length);
+      if (result) {
+        this.status = 200;
+        return this.body = {
+          Items: result
+        };
+      } else {
+        return this.status = 404;
+      }
+    });
     return app.get("/reports", function*(next) {
       var page, result, rows_per_page;
       rows_per_page = this.request.query['per_page'] || 10;
