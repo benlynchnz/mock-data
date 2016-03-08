@@ -44,6 +44,12 @@ Mock.createDriver = (driver) ->
 					result.id = id
 					resolve(result)
 
+Mock.deleteDriver = (id) ->
+	new Promise (resolve, reject) ->
+		driverDB.del id, (err) ->
+			if err then reject(err)
+			else resolve(true)
+
 Mock.updateDriver = (id, driver) ->
 	new Promise (resolve, reject) ->
 		driverDB.get id, (err, result) ->

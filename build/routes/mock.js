@@ -45,9 +45,20 @@
         return this.status = 500;
       }
     });
+    app["delete"]("/drivers/:id", function*(next) {
+      var result;
+      result = (yield Mock.deleteDriver(this.params.id).then(function(res) {
+        return res;
+      }));
+      if (result) {
+        return this.status = 200;
+      } else {
+        return this.status = 500;
+      }
+    });
     app.put("/drivers/:id", function*(next) {
       var result;
-      result = (yield Mock.updateDriver(this.request.params.id, this.request.body).then(function(res) {
+      result = (yield Mock.updateDriver(this.params.id, this.request.body).then(function(res) {
         return res;
       }));
       if (result) {
