@@ -72,17 +72,17 @@
     });
   };
 
-  Mock.updateDriver = function(driver) {
+  Mock.updateDriver = function(id, driver) {
     return new Promise(function(resolve, reject) {
-      return driverDB.get(driver.id, function(err, result) {
+      return driverDB.get(id, function(err, result) {
         if (err) {
           reject(err);
         }
-        return driverDB.put(driver.id, driver, function(err) {
+        return driverDB.put(id, driver, function(err) {
           if (err) {
             reject(err);
           }
-          return driverDB.get(driver.id, function(err, update) {
+          return driverDB.get(id, function(err, update) {
             if (err) {
               return reject(err);
             } else {

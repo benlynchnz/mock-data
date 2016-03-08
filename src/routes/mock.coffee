@@ -47,9 +47,9 @@ module.exports = (app) ->
 		else
 			@status = 500
 
-	app.put "/drivers", (next) ->
+	app.put "/drivers/:id", (next) ->
 
-		result = yield Mock.updateDriver(@request.body)
+		result = yield Mock.updateDriver(@request.params.id, @request.body)
 			.then (res) ->
 				return res
 

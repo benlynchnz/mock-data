@@ -44,13 +44,13 @@ Mock.createDriver = (driver) ->
 					result.id = id
 					resolve(result)
 
-Mock.updateDriver = (driver) ->
+Mock.updateDriver = (id, driver) ->
 	new Promise (resolve, reject) ->
-		driverDB.get driver.id, (err, result) ->
+		driverDB.get id, (err, result) ->
 			if err then reject(err)
-			driverDB.put driver.id, driver, (err) ->
+			driverDB.put id, driver, (err) ->
 				if err then reject(err)
-				driverDB.get driver.id, (err, update) ->
+				driverDB.get id, (err, update) ->
 					if err then reject(err)
 					else resolve(update)
 
