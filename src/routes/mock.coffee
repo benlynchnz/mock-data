@@ -47,9 +47,20 @@ module.exports = (app) ->
 		else
 			@status = 500
 
+	app.delete "/drivers/:id", (next) ->
+
+		result = yield Mock.deleteDriver(@params.id)
+			.then (res) ->
+				return res
+
+		if result
+			@status = 200
+		else
+			@status = 500
+
 	app.put "/drivers/:id", (next) ->
 
-		result = yield Mock.updateDriver(@request.params.id, @request.body)
+		result = yield Mock.updateDriver(@params.id, @request.body)
 			.then (res) ->
 				return res
 

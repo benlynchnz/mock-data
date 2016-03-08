@@ -72,6 +72,18 @@
     });
   };
 
+  Mock.deleteDriver = function(id) {
+    return new Promise(function(resolve, reject) {
+      return driverDB.del(id, function(err) {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(true);
+        }
+      });
+    });
+  };
+
   Mock.updateDriver = function(id, driver) {
     return new Promise(function(resolve, reject) {
       return driverDB.get(id, function(err, result) {
