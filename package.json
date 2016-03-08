@@ -20,6 +20,7 @@
     "koa-bodyparser": "^1.5.0",
     "koa-cors": "0.0.16",
     "koa-router": "^4.3.2",
+    "level": "^1.4.0",
     "lodash": "^3.8.0",
     "moment": "^2.10.3",
     "nconf": "^0.7.1",

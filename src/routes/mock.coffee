@@ -15,7 +15,7 @@ module.exports = (app) ->
 		else
 			@status = 500
 
-	app.get "/drivers.json", (next) ->
+	app.get "/drivers", (next) ->
 
 		count = @request.query.count or 100
 
@@ -23,7 +23,9 @@ module.exports = (app) ->
 			.then (res) ->
 				return res
 
-		@set 'X-Total-Count', result.length
+		# @set 'X-Total-Count', result.length
+
+		console.log result
 
 		if result
 			@status = 200
@@ -31,6 +33,31 @@ module.exports = (app) ->
 				Items: result
 		else
 			@status = 404
+
+
+	app.post "/drivers", (next) ->
+
+		result = yield Mock.createDriver(@request.body)
+			.then (res) ->
+				return res
+
+		if result
+			@status = 201
+			@body = result
+		else
+			@status = 500
+
+	app.put "/drivers", (next) ->
+
+		result = yield Mock.updateDriver(@request.body)
+			.then (res) ->
+				return res
+
+		if result
+			@status = 200
+			@body = result
+		else
+			@status = 500
 
 	app.get "/reports", (next) ->
 

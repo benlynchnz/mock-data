@@ -17,13 +17,13 @@
         return this.status = 500;
       }
     });
-    app.get("/drivers.json", function*(next) {
+    app.get("/drivers", function*(next) {
       var count, result;
       count = this.request.query.count || 100;
       result = (yield Mock.getDrivers(count).then(function(res) {
         return res;
       }));
-      this.set('X-Total-Count', result.length);
+      console.log(result);
       if (result) {
         this.status = 200;
         return this.body = {
@@ -31,6 +31,30 @@
         };
       } else {
         return this.status = 404;
+      }
+    });
+    app.post("/drivers", function*(next) {
+      var result;
+      result = (yield Mock.createDriver(this.request.body).then(function(res) {
+        return res;
+      }));
+      if (result) {
+        this.status = 201;
+        return this.body = result;
+      } else {
+        return this.status = 500;
+      }
+    });
+    app.put("/drivers", function*(next) {
+      var result;
+      result = (yield Mock.updateDriver(this.request.body).then(function(res) {
+        return res;
+      }));
+      if (result) {
+        this.status = 200;
+        return this.body = result;
+      } else {
+        return this.status = 500;
       }
     });
     return app.get("/reports", function*(next) {
