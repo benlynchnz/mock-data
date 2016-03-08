@@ -26,9 +26,7 @@
       console.log(result);
       if (result) {
         this.status = 200;
-        return this.body = {
-          Items: result
-        };
+        return this.body = result;
       } else {
         return this.status = 404;
       }

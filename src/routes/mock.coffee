@@ -29,8 +29,7 @@ module.exports = (app) ->
 
 		if result
 			@status = 200
-			@body =
-				Items: result
+			@body = result
 		else
 			@status = 404
 
