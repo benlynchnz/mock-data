@@ -38,7 +38,7 @@
       return driverDB.createReadStream().on("data", function(data) {
         var result;
         result = {
-          id: data.key
+          gid: data.key
         };
         _.merge(result, data.value);
         return results.push(result);
@@ -51,20 +51,20 @@
   };
 
   Mock.createDriver = function(driver) {
-    var id;
-    id = Guid.create().value;
+    var gid;
+    gid = Guid.create().value;
     driver.created_at = moment();
     driver.updated_at = moment();
     return new Promise(function(resolve, reject) {
-      return driverDB.put(id, driver, function(err) {
+      return driverDB.put(gid, driver, function(err) {
         if (err) {
           reject(err);
         }
-        return driverDB.get(id, function(err, result) {
+        return driverDB.get(gid, function(err, result) {
           if (err) {
             return reject(err);
           } else {
-            result.id = id;
+            result.gid = gid;
             return resolve(result);
           }
         });
@@ -72,9 +72,9 @@
     });
   };
 
-  Mock.deleteDriver = function(id) {
+  Mock.deleteDriver = function(gid) {
     return new Promise(function(resolve, reject) {
-      return driverDB.del(id, function(err) {
+      return driverDB.del(gid, function(err) {
         if (err) {
           return reject(err);
         } else {
@@ -84,17 +84,17 @@
     });
   };
 
-  Mock.updateDriver = function(id, driver) {
+  Mock.updateDriver = function(gid, driver) {
     return new Promise(function(resolve, reject) {
-      return driverDB.get(id, function(err, result) {
+      return driverDB.get(gid, function(err, result) {
         if (err) {
           reject(err);
         }
-        return driverDB.put(id, driver, function(err) {
+        return driverDB.put(gid, driver, function(err) {
           if (err) {
             reject(err);
           }
-          return driverDB.get(id, function(err, update) {
+          return driverDB.get(gid, function(err, update) {
             if (err) {
               return reject(err);
             } else {

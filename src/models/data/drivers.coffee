@@ -16,7 +16,7 @@ API.get = (count, callback) ->
         name = _.sample(names)
         driver_id = "AB" + _.random(1000000, 9999999)
         data.push(
-            id: Guid.create()
+            gid: Guid.create()
             status: _.sample(status)
             created_at: moment().subtract(_.random(1, 365), 'days').subtract(_.random(1, 60), 'minutes').toISOString()
             first_name: name.split(" ")[0]

@@ -23,7 +23,7 @@ Mock.getDrivers = (count) ->
 		driverDB.createReadStream()
 			.on "data", (data) ->
 				result =
-					id: data.key
+					gid: data.key
 				_.merge(result, data.value)
 				results.push result
 			.on "error", (err) ->
@@ -32,31 +32,31 @@ Mock.getDrivers = (count) ->
 				resolve(results)
 
 Mock.createDriver = (driver) ->
-	id = Guid.create().value
+	gid = Guid.create().value
 	driver.created_at = moment()
 	driver.updated_at = moment()
 	new Promise (resolve, reject) ->
-		driverDB.put id, driver, (err) ->
+		driverDB.put gid, driver, (err) ->
 			if err then reject(err)
-			driverDB.get id, (err, result) ->
+			driverDB.get gid, (err, result) ->
 				if err then reject(err)
 				else
-					result.id = id
+					result.gid = gid
 					resolve(result)
 
-Mock.deleteDriver = (id) ->
+Mock.deleteDriver = (gid) ->
 	new Promise (resolve, reject) ->
-		driverDB.del id, (err) ->
+		driverDB.del gid, (err) ->
 			if err then reject(err)
 			else resolve(true)
 
-Mock.updateDriver = (id, driver) ->
+Mock.updateDriver = (gid, driver) ->
 	new Promise (resolve, reject) ->
-		driverDB.get id, (err, result) ->
+		driverDB.get gid, (err, result) ->
 			if err then reject(err)
-			driverDB.put id, driver, (err) ->
+			driverDB.put gid, driver, (err) ->
 				if err then reject(err)
-				driverDB.get id, (err, update) ->
+				driverDB.get gid, (err, update) ->
 					if err then reject(err)
 					else resolve(update)
 
