@@ -44,11 +44,11 @@
   });
 
   app.use(function*(next) {
-    var err;
+    var err, error;
     try {
       return (yield next);
-    } catch (_error) {
-      err = _error;
+    } catch (error) {
+      err = error;
       this.status = 500;
       this.body = err.message;
       return this.app.emit('error', err, this);
